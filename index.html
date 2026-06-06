@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do App</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-image: linear-gradient(to bottom, #f3f3f3, #ffffff);
+            height: 100vh;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 80%;
+            margin: 40px auto;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+        .header {
+            background-image: linear-gradient(to right, #4c87d6, #4682b4);
+            color: #ffffff;
+            padding: 10px;
+            border-radius: 10px 10px 0 0;
+        }
+        .header h1 {
+            margin: 0;
+            padding: 10px;
+        }
+        .todo-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .todo-item {
+            background-color: #f3f3f3;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            animation: fadeIn 0.5s;
+        }
+        .todo-item:hover {
+            background-color: #e3e3e3;
+        }
+        .todo-item span {
+            font-size: 16px;
+            font-weight: bold;
+        }
+        .todo-item button {
+            float: right;
+            background-color: #4c87d6;
+            color: #ffffff;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .todo-item button:hover {
+            background-color: #4682b4;
+        }
+        .add-todo {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #4c87d6;
+            color: #ffffff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .add-todo:hover {
+            background-color: #4682b4;
+        }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+        @media only screen and (max-width: 768px) {
+            .container {
+                width: 90%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>To-Do App</h1>
+        </div>
+        <ul class="todo-list" id="todo-list">
+        </ul>
+        <input type="text" id="todo-input" placeholder="Add new todo">
+        <button class="add-todo" id="add-todo">Add</button>
+    </div>
+    <script>
+        let todoList = [];
+        let todoInput = document.getElementById('todo-input');
+        let addTodoButton = document.getElementById('add-todo');
+        let todoListElement = document.getElementById('todo-list');
+
+        addTodoButton.addEventListener('click', addTodo);
+
+        function addTodo() {
+            let todoText = todoInput.value.trim();
+            if (todoText !== '') {
+                todoList.push(todoText);
+                todoInput.value = '';
+                renderTodoList();
+            }
+        }
+
+        function renderTodoList() {
+            todoListElement.innerHTML = '';
+            todoList.forEach((todo, index) => {
+                let todoItem = document.createElement('li');
+                todoItem.classList.add('todo-item');
+                let todoText = document.createElement('span');
+                todoText.textContent = todo;
+                let deleteButton = document.createElement('button');
+                deleteButton.textContent = 'Delete';
+                deleteButton.addEventListener('click', () => {
+                    deleteTodo(index);
+                });
+                todoItem.appendChild(todoText);
+                todoItem.appendChild(deleteButton);
+                todoListElement.appendChild(todoItem);
+            });
+        }
+
+        function deleteTodo(index) {
+            todoList.splice(index, 1);
+            renderTodoList();
+        }
+    </script>
+</body>
+</html>
